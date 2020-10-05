@@ -1,0 +1,114 @@
+<?php
+ //$cartItems= $product->getData("cart");
+
+ 
+ //get the user id
+ $userId= $_SESSION['user_id'];
+ $cartItems= $cart->getDataByUserId($userId); //get row(s) from the cart db using the user id
+
+ if($_SERVER["REQUEST_METHOD"]=="POST"){
+    if(isset($_POST["wishlist-submit"])){
+        //$userId= $_POST["user_id"];
+        $itemId= $_POST["item_id"];
+
+        if($wishlist->insertIntoWishlist($userId, $itemId)){
+            $cart->deleteFromCart($userId, $itemId);
+        }
+    }
+
+    if(isset($_POST["delete-cart-btn"])){
+        $itemId= $_POST["item_id"];
+
+        $cart->deleteFromCart($userId, $itemId);
+    }
+ }
+?>
+
+<section id="cart-items">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+            <?php
+            
+                foreach ($cartItems as $cart){
+                    $products= $product->getDataById($cart['item_id']);
+                    //$subTotal[]= array_map(function ($item){
+                    array_map(function ($item){
+            ?>
+                   
+                <!-- cart item -->
+                <div class="row border-top py-3 mt-3">
+                    <div class="col-sm-2">
+                    <a href="<?php printf('%s?item_id=%s', 'product.php',  $item['item_id']); ?>"><img style="height: 120px;" src="<?php echo $item['item_image'] ?? "./assets/products/13.png"; ?>" alt="cart-item" class="img-fluid"></a>
+                    </div>
+                    <div class="col-sm-8">
+                        <h5 class="font-baloo font-size-20"><?php echo $item['item_name'] ?? "Unknown"; ?></h5>
+                        <small>by <?php echo $item['item_brand'] ?? "Brand"; ?></small>
+                        <!-- product rating -->
+                        <div class="d-flex">
+                            <div class="rating text-warning font-size-12">
+                                <i class="far fa-star star" id="1"></i>
+                                <i class="far fa-star star" id="2"></i>
+                                <i class="far fa-star star" id="3"></i>
+                                <i class="far fa-star star" id="4"></i>
+                                <i class="far fa-star star" id="5"></i>
+                            </div>
+                            <a href="#" class="px-2 font-rale font-size-14">20,534 ratings</a>
+                        </div>
+                        <!--  !product rating-->
+
+                        <!-- product qty -->
+                        <div class="qty d-flex pt-2">
+                            <div class="d-flex font-rale w-25">
+                                <button class="qty-up border bg-light" data-id="<?php echo $item['item_id'] ?? '0'; ?>"><i class="fas fa-angle-up"></i></button>
+                                <input type="text" data-id="<?php echo $item['item_id'] ?? '0'; ?>" class="qty_input border px-2 w-100 bg-light" disabled value="1" placeholder="1">
+                                <button data-id="<?php echo $item['item_id'] ?? '0'; ?>" class="qty-down border bg-light"><i class="fas fa-angle-down"></i></button>
+                            </div>
+
+                            <form method="post">
+                                <!--<input type="hidden" value="<?php //echo $item['user_id'] ?? 0; ?>" name="user_id">-->
+                                <input type="hidden" value="<?php echo $item['item_id'] ?? 0; ?>" name="item_id">
+                                <button type="submit" name="delete-cart-btn" class="btn font-baloo text-danger px-3 border-right">Delete</button>
+                            </form>
+
+                            <form method="post">
+                                <!--<input type="hidden" value="<?php //echo $item['user_id'] ?? 0; ?>" name="user_id">-->
+                                <input type="hidden" value="<?php echo $item['item_id'] ?? 0; ?>" name="item_id">
+                                <button type="submit" name="wishlist-submit" class="btn font-baloo text-danger">Save for Later</button>
+                            </form>
+
+
+                        </div>
+                        <!-- !product qty -->
+
+                    </div>
+
+                    <div class="col-sm-2 text-right">
+                        <div class="font-size-20 text-danger font-baloo">
+                            $<span class="product_price" data-id="<?php echo $item['item_id'] ?? '0'; ?>"><?php echo $item['item_price'] ?? 0; ?></span>
+                        </div>
+                    </div>
+                </div>
+            <?php
+                    //return $item['item_price'];
+                }, $products);
+            }
+            ?>
+            </div>
+             <!-- subtotal section-->
+             <!--
+            <div class="col-sm-3">
+                <div class="sub-total border text-center mt-2">
+                    <h6 class="font-size-12 font-rale text-success py-3"><i class="fas fa-check"></i> Your order is eligible for FREE Delivery.</h6>
+                    <div class="border-top py-4">
+                        <h5 class="font-baloo font-size-20">Subtotal ( <?php //echo isset($subTotal) ? count($subTotal) : 0; ?> item):&nbsp; <span class="text-danger">$<span class="text-danger" id="deal-price"><?php echo isset($subTotal) ? $Cart->getSum($subTotal) : 0; ?></span> </span> </h5>
+                        <button type="submit" class="btn btn-warning mt-3">Proceed to Buy</button>
+                    </div>
+                </div>
+            </div>
+            -->
+            <!-- !subtotal section-->
+        </div>
+    </div>
+</section>
+

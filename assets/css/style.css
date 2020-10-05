@@ -1,0 +1,141 @@
+/* stylesheet */
+* {
+  box-sizing: border-box;
+}
+
+section {
+  background: url("./assets/images/bg.jpg");
+}
+
+.outline {
+  border: 1px solid gray;
+}
+
+.outline-theme-color {
+  border: 1px solid #00A5C4;
+}
+
+.box-shadow {
+  box-shadow: black 2px 2px 4px;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+#banner_area {
+  height: 460px;
+  width: auto;
+}
+
+#banner_text {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation-name: slide-in;
+  animation-duration: 2s;
+  animation-timing-function: ease-in;
+  animation-delay: -0.8s;
+}
+
+#banner_btn {
+  left: 50%;
+  bottom: 24%;
+  transform: translateX(-50%);
+  animation-name: slide-up;
+  animation-duration: 2s;
+  animation-timing-function: ease-in;
+  animation-delay: 2s;
+  animation-fill-mode: backwards;
+}
+
+@keyframes slide-in {
+  from {
+    left: -50%;
+  }
+  to {
+    left: 50%;
+  }
+}
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    display: none;
+    bottom: 0;
+  }
+  50% {
+    opacity: 1;
+    display: block;
+  }
+  100% {
+    opacity: 1;
+    display: block;
+    bottom: 24%;
+  }
+}
+@media screen and (max-width: 600px) {
+  #banner_text {
+    font-size: 20px;
+  }
+
+  #banner_area {
+    height: 200px;
+  }
+
+  /*
+  section#products .row .product{
+    width: 200px;
+  }
+
+   */
+}
+section#products .row .product img {
+  transition: transform 0.5s ease;
+}
+
+section#products .row .product img:hover {
+  transform: scale(1.1);
+}
+
+.bg-theme-color {
+  background: #00A5C4;
+}
+
+.bg-gold {
+  background: gold;
+}
+
+/*
+.bg-gradient{
+  background: linear-gradient(45deg, teal,skyblue);
+}
+*/
+.bg-gradient {
+  background: linear-gradient(45deg, firebrick, yellow, dodgerblue);
+}
+
+.font-heading {
+  font-family: "helvetica", tahoma;
+}
+
+.font-subheading {
+  font-family: "Times New Roman", helvetica, tahoma;
+}
+
+.font-bodyText {
+  font-family: "tahoma", serif;
+}
+
+.font-color-one {
+  color: dodgerblue;
+}
+
+.font-size-14 {
+  font-size: 14px;
+}
+
+/*# sourceMappingURL=style.css.map */
